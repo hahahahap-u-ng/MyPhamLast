@@ -1,0 +1,660 @@
+﻿
+
+@model List<SanPham>
+
+@{
+    ViewData["Title"] = "Chi Tiết Sản Phẩm";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+
+@{
+    var danhMuc = ViewData["DanhMuc"] as DanhMucSanPham;
+}
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Bạn cần bao gói jQuery trong trang -->
+
+
+
+
+
+
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">Shop - @danhMuc.TenDanhMuc</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                                <li class="active" aria-current="page">@danhMuc.TenDanhMuc</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Start Product Details Section -->
+
+<div class="product-details-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5 col-lg-6">
+                <div class="product-details-gallery-area" data-aos="fade-up" data-aos-delay="0">
+                    <!-- Start Large Image -->
+                    <div class="product-large-image product-large-image-horaizontal swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model)
+                            {
+                                <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                                    <img src="/images/sanPhams/@item.Anh" alt="@item.TenSanPham">
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                    <!-- End Large Image -->
+                    <!-- Start Thumbnail Image -->
+                    <div class="product-image-thumb product-image-thumb-horizontal swiper-container pos-relative mt-5">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model)
+                            {
+                                <div class="product-image-thumb-single swiper-slide">
+                                    <img class="img-fluid" src="/images/sanPhams/@item.Anh" alt="@item.TenSanPham">
+                                </div>
+                            }
+
+                        </div>
+                        <!-- Add Arrows -->
+                        <div class="gallery-thumb-arrow swiper-button-next"></div>
+                        <div class="gallery-thumb-arrow swiper-button-prev"></div>
+                    </div>
+                    <!-- End Thumbnail Image -->
+                </div>
+            </div>
+
+
+            <div class="col-xl-7 col-lg-6">
+                <div class="product-details-content-area product-details--golden" data-aos="fade-up"
+                     data-aos-delay="200">
+                    <!-- Start  Product Details Text Area-->
+                    <div class="product-details-text">
+                        <h4 class="title">@danhMuc.TenDanhMuc</h4>
+                        <div class="d-flex align-items-center">
+                            <ul class="review-star">
+                                <li class="fill"><i class="ion-android-star"></i></li>
+                                <li class="fill"><i class="ion-android-star"></i></li>
+                                <li class="fill"><i class="ion-android-star"></i></li>
+                                <li class="fill"><i class="ion-android-star"></i></li>
+                                <li class="empty"><i class="ion-android-star"></i></li>
+                            </ul>
+                            <a href="#" class="customer-review ml-2">đánh giá </a>
+                        </div>
+                        <del>
+                            
+                                
+                                <span class="noGiaSP">@(danhMuc.Gia+15000)</span>
+                                <span> VNĐ</span>
+                            
+                        </del>
+                        <div class="price">
+                            
+                            <span class="product-discount-price">@danhMuc.Gia</span>
+                            <span> VNĐ</span>
+                        </div>
+                        
+                        <p>
+                            @danhMuc.MoTa
+                        </p>
+                    </div> <!-- End  Product Details Text Area-->
+                    <!-- Start Product Variable Area -->
+                    <div class="product-details-variable">
+                        <h4 class="title">Thêm vào giỏ hàng</h4>
+                        <!-- Product Variable Single Item -->
+                        <div class="variable-single-item">
+                            <div class="product-stock">      
+                                <div>
+                                    <span class="product-stock-in">
+                                        <i class="ion-checkmark-circled"></i>
+                                    </span>
+                                    <span>Còn lại </span>
+                                    <span class="spkho">...</span>
+                                    <span> sản phẩm</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product Variable Single Item -->
+                        <div class="variable-single-item">
+                            <label class="label">Color: <span class="label__value">11 Fuchsia Vibe</span></label>
+                            <div class="product-variable-color">
+                                @foreach (var item in Model)
+                                {
+                                    <label for="product-color-@item.Mau">
+                                        <input name="product-color" id="product-color-@item.Mau" class="color-select" type="checkbox"
+                                               data-product-name="@item.TenSanPham"
+                                               data-product-kho="@item.Slkho"
+                                               data-product-price="@item.Gia"
+                                               data-product-khuyenmai="@item.KhuyenMai"
+                                               data-product-masanpham="@item.MaSanPham">
+                                        <span style="background-color: @item.Mau;"></span>
+                                    </label>
+                                }
+                            </div>
+                            <script>
+                                // Lắng nghe sự kiện khi chọn màu
+                                // Lắng nghe sự kiện khi chọn màu
+                                var colorSelects = document.querySelectorAll('.color-select');
+                                colorSelects.forEach(function (colorSelect) {
+                                    colorSelect.addEventListener('change', function (event) {
+                                        var selectedProductName = event.target.getAttribute('data-product-name');
+                                        var selectedKho = event.target.getAttribute('data-product-kho');
+                                        var selectedPrice = parseFloat(event.target.getAttribute('data-product-price')); // Lấy giá sản phẩm
+
+                                        var selectedKhuyenMai = parseFloat(event.target.getAttribute('data-product-khuyenmai')); // Lấy mức khuyến mãi
+
+                                        // Cập nhật tên sản phẩm
+                                        var labelValue = document.querySelector('.label__value');
+                                        labelValue.textContent = selectedProductName;
+                                        // Cập nhật kho
+                                        var khoElement = document.querySelector('.spkho');
+                                        khoElement.textContent = selectedKho;
+
+                                        // Tính toán giá khuyến mãi
+                                        var discountPrice = (selectedPrice * (100 - selectedKhuyenMai)) / 100;
+
+                                        // Cập nhật giá sản phẩm và giá khuyến mãi
+                                        var priceElement = document.querySelector('.GiaSP');
+                                        var discountPriceElement = document.querySelector('.product-discount-price');
+                                        priceElement.textContent = selectedPrice;
+                                        discountPriceElement.textContent = discountPrice;
+
+
+                                    });
+                                });
+                                // Lắng nghe sự kiện khi nhấn nút "GIỎ HÀNG"
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var addToCartButton = document.querySelector('#addToCartButton');
+                                    addToCartButton.addEventListener('click', function (event) {
+                                        event.preventDefault();
+
+                                        // Kiểm tra xem người dùng có được xác thực hay không
+                                        var isAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+
+                                        if (!isAuthenticated) {
+                                            // Chuyển hướng đến trang đăng nhập
+                                            window.location.href = '/dang-nhap.html'; // Cập nhật URL theo cần thiết
+                                        } else {
+                                            // Tiếp tục với việc thêm sản phẩm vào giỏ hàng
+
+                                            // Phần mã còn lại của bạn...
+                                            var selectedColor = document.querySelector('.color-select:checked');
+                                            if (selectedColor) {
+                                                var masanpham = selectedColor.getAttribute('data-product-masanpham');
+                                                $.ajax({
+                                                    url: '/GioHang/AddGioHang',
+                                                    type: 'POST',
+                                                    data: { MaSanPham: masanpham },
+                                                    success: function (data) {
+                                                        alert('Sản phẩm đã được thêm vào giỏ hàng');
+                                                        location.reload();
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng');
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                });
+
+                            </script>
+
+
+                            <script>
+                                // Lắng nghe sự kiện khi chọn màu và chỉ cho phép chọn duy nhất một ô
+                                var colorSelects = document.querySelectorAll('.color-select');
+                                colorSelects.forEach(function (colorSelect) {
+                                    colorSelect.addEventListener('change', function (event) {
+                                        // Bỏ chọn tất cả các ô màu khác
+                                        colorSelects.forEach(function (otherColorSelect) {
+                                            if (otherColorSelect !== event.target) {
+                                                otherColorSelect.checked = false;
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+
+                        </div>
+
+                        
+                        <!-- Product Variable Single Item -->
+                        <div class="d-flex align-items-center ">
+                            <div class="variable-single-item ">
+                                <span>Số lượng</span>
+                                <div class="product-variable-quantity">
+                                    <input min="1" max="100" value="1" type="number">
+                                </div>
+                            </div>
+
+                            @* <div class="product-add-to-cart-btn">
+                                <a href="/GioHang/AddGioHang/?MaSanPham=SP0001" data-bs-toggle="modal" data-bs-target="#modalAddcart">+ THÊM VÀO GIỎ HÀNG</a>
+                            </div> *@
+                            
+                            <<div class="product-add-to-cart-btn">
+                                <a href="#" id="addToCartButton">GIỎ HÀNG</a>
+                            </div>
+
+                        </div>
+                        <!-- Start  Product Details Meta Area-->
+                        <div class="product-details-meta mb-20">
+                            <a href="wishlist.html" class="icon-space-right">
+                                <i class="icon-heart"></i> Thêm vào danh sách yêu thích
+                                
+                            </a>
+                            <a href="compare.html" class="icon-space-right"><i class="icon-refresh"></i>So sánh</a>
+                        </div> <!-- End  Product Details Meta Area-->
+                    </div> <!-- End Product Variable Area -->
+                    <!-- Start  Product Details Catagories Area-->
+                    <div class="product-details-catagory mb-2">
+                        <span class="title">@danhMuc.TenDanhMuc</span>
+                        <ul>
+                            <li><a href="#">BAR STOOL</a></li>
+                            <li><a href="#">KITCHEN UTENSILS</a></li>
+                            <li><a href="#">TENNIS</a></li>
+                        </ul>
+                    </div> <!-- End  Product Details Catagories Area-->
+                    <!-- Start  Product Details Social Area-->
+                    <div class="product-details-social">
+                        <span class="title">CHIA SẺ TỚI:</span>
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div> <!-- End  Product Details Social Area-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Product Details Section -->
+
+
+
+
+<!-- Start Product Content Tab Section -->
+<div class="product-details-content-tab-section section-top-gap-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="product-details-content-tab-wrapper" data-aos="fade-up" data-aos-delay="0">
+
+                    <!-- Start Product Details Tab Button -->
+                    <ul class="nav tablist product-details-content-tab-btn d-flex justify-content-center">
+                        <li>
+                            <a class="nav-link active" data-bs-toggle="tab" href="#description">
+                                Chi tiết
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" data-bs-toggle="tab" href="#specification">
+                                Cách sử dụng
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" data-bs-toggle="tab" href="#review">
+                                Đánh giá
+                            </a>
+                        </li>
+                    </ul> <!-- End Product Details Tab Button -->
+                    <!-- Start Product Details Tab Content -->
+                    <div class="product-details-content-tab">
+                        <div class="tab-content">
+                            <!-- Start Product Details Tab Content Singel -->
+                            <div class="tab-pane active show" id="description">
+                                <div class="single-tab-content-item">
+                                    <p>
+                                        @danhMuc.ChiTiet
+                                    </p>
+                                </div>
+                            </div> <!-- End Product Details Tab Content Singel -->
+                            <!-- Start Product Details Tab Content Singel -->
+                            <div class="tab-pane" id="specification">
+                                <div class="single-tab-content-item">
+                                    
+                                    <p>
+                                        @danhMuc.CachDung
+                                    </p>
+                                </div>
+                            </div> <!-- End Product Details Tab Content Singel -->
+                            <!-- Start Product Details Tab Content Singel -->
+                            <div class="tab-pane" id="review">
+                                <div class="single-tab-content-item">
+                                    <!-- Start - Review Comment -->
+                                    <ul class="comment">
+                                        <!-- Start - Review Comment list-->
+                                        <li class="comment-list">
+                                            <div class="comment-wrapper">
+                                                <div class="comment-img">
+                                                    <img src="/images/user/hieu1.png" alt="">
+                                                </div>
+                                                <div class="comment-content">
+                                                    <div class="comment-content-top">
+                                                        <div class="comment-content-left">
+                                                            <h6 class="comment-name">Nguyễn Lê Trung Hiếu</h6>
+                                                            <ul class="review-star">
+                                                                <li class="fill">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="empty">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="comment-content-right">
+                                                            <a href="#"><i class="fa fa-reply"></i>Reply</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="para-content">
+                                                        <p>
+                                                            Nhận hàng về mà mê cực í 🥰 mùi thơm ngất mà màu cũng xinh xẻo ❤️❤️ 
+                                                            hồi giờ chưa dùng hãng merzy nên lúc đặt cũng sợ không đẹp ai ngờ lại đẹp không tưởng luôn ❤️ 
+                                                            ai còn phân Vân thì nên đặt nha ❤️ cảm ơn shop 🥰🥰
+                                                           
+
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Start - Review Comment Reply-->
+                                            <ul class="comment-reply">
+                                                <li class="comment-reply-list">
+                                                    <div class="comment-wrapper">
+                                                        <div class="comment-img">
+                                                            <img src="/images/user/hieu2.png" alt="">
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <div class="comment-content-top">
+                                                                <div class="comment-content-left">
+                                                                    <h6 class="comment-name">Nguyễn Thị Hải Vân</h6>
+                                                                </div>
+                                                                <div class="comment-content-right">
+                                                                    <a href="#"><i class="fa fa-reply"></i>Reply</a>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="para-content">
+                                                                <p>
+                                                                    Shop tư vấn tận tình, rep tin nhắn nhanh. Shipper giao hàng nhanh. Phục vụ tốt. Màu lên đẹp và thơm lắm nha mọi ng. Test chụp ra tay thì có hơi chênh lệch xíu. Son lên có màu ánh cam ổn lắm. Mọi người nên mua nhé
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul> <!-- End - Review Comment Reply-->
+                                        </li> <!-- End - Review Comment list-->
+                                        <!-- Start - Review Comment list-->
+                                        <li class="comment-list">
+                                            <div class="comment-wrapper">
+                                                <div class="comment-img">
+                                                    <img src="/images/user/hieu3.png" alt="">
+                                                </div>
+                                                <div class="comment-content">
+                                                    <div class="comment-content-top">
+                                                        <div class="comment-content-left">
+                                                            <h6 class="comment-name">Nguyễn Hà Phương</h6>
+                                                            <ul class="review-star">
+                                                                <li class="fill">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="fill">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                                <li class="empty">
+                                                                    <i class="ion-android-star"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="comment-content-right">
+                                                            <a href="#"><i class="fa fa-reply"></i>Reply</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="para-content">
+                                                        <p>
+                                                            Nhỏ gọn, cầm rất là đầm tay. Hàng seal đàng hoàng, mở ra mùi rất thơm giống mùi kẹo singum í. M
+                                                            àu hồng nâu MLBB lên môi mình rất đẹp hổng có bị sến quá. 
+                                                            Da mình tone trung bình sáng lên môi rất là hợp luôn nhìn như màu môi tự nhiên luôn ấy, quá là ưng 🫶 nên mua nên mua.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li> <!-- End - Review Comment list-->
+                                    </ul> <!-- End - Review Comment -->
+                                    <div class="review-form">
+                                        <div class="review-form-text-top">
+                                            <h5>ADD A REVIEW</h5>
+                                            <p>
+                                                Your email address will not be published. Required fields are marked
+                                                *
+                                            </p>
+                                        </div>
+
+                                        <form action="#" method="post">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="default-form-box">
+                                                        <label for="comment-name">Your name <span>*</span></label>
+                                                        <input id="comment-name" type="text"
+                                                               placeholder="Enter your name" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="default-form-box">
+                                                        <label for="comment-email">Your Email <span>*</span></label>
+                                                        <input id="comment-email" type="email"
+                                                               placeholder="Enter your email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="default-form-box">
+                                                        <label for="comment-review-text">
+                                                            Your review
+                                                            <span>*</span>
+                                                        </label>
+                                                        <textarea id="comment-review-text"
+                                                                  placeholder="Write a review" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button class="btn btn-md btn-black-default-hover"
+                                                            type="submit">
+                                                        Gửi
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> <!-- End Product Details Tab Content Singel -->
+                        </div>
+                    </div> <!-- End Product Details Tab Content -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End Product Content Tab Section -->
+<!-- Start Product Default Slider Section -->
+<div class="product-default-slider-section section-top-gap-100 section-fluid">
+    <!-- Start Section Content Text Area -->
+    <div class="section-title-wrapper" data-aos="fade-up" data-aos-delay="0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-content-gap">
+                        <div class="secton-content">
+                            <h3 class="section-title">SẢN PHẨM TƯƠNG TỰ</h3>
+                            <p>Duyệt qua những sản phẩm liên quan
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start Section Content Text Area -->
+    <div class="product-wrapper" data-aos="fade-up" data-aos-delay="0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="product-slider-default-1row default-slider-nav-arrow">
+                        <!-- Slider main container -->
+                        <div class="swiper-container product-default-slider-4grid-1row">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                
+                                <!-- Sử dụng vòng lặp để hiển thị danh sách danh mục -->
+                                @foreach (var item in ViewData["DanhMucList"] as List<DanhMucSanPham>)
+                                {
+                                    <div class="product-default-single-item product-color--golden swiper-slide">
+                                        <div class="image-box">
+                                            <a asp-controller="Home" asp-action="SanPhamTheoDanhMuc" asp-route-maDanhMuc="@item.MaDanhMuc" class="image-link">
+                                                <img src="/images/DanhMucSanPham/@item.HinhAnh" alt="@item.TenDanhMuc">
+                                                
+                                            </a>
+                                            <div class="action-link">
+                                                <div class="action-link-left">
+                                                    <a asp-controller="Home" asp-action="SanPhamTheoDanhMuc" asp-route-maDanhMuc="@item.MaDanhMuc">Mua ngay</a>
+                                                </div>
+                                                <div class="action-link-right">
+                                                    <a href="#" data-bs-toggle="modal"
+                                                       data-bs-target="#modalQuickview">
+                                                        <i class="icon-magnifier"></i>
+                                                    </a>
+                                                    <a href="wishlist.html"><i class="icon-heart"></i></a>
+                                                    <a href="compare.html"><i class="icon-shuffle"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <div class="content-left">
+                                                <h6 class="title">
+                                                    <a asp-controller="Home" asp-action="SanPhamTheoDanhMuc" asp-route-maDanhMuc="@item.MaDanhMuc">
+                                                        @item.TenDanhMuc <!-- Hiển thị tên danh mục từ dữ liệu danh mục -->
+                                                    </a>
+                                                </h6>
+                                                <ul class="review-star">
+                                                    <li class="fill"><i class="ion-android-star"></i></li>
+                                                    <li class="fill"><i class="ion-android-star"></i></li>
+                                                    <li class="fill"><i class="ion-android-star"></i></li>
+                                                    <li class="fill"><i class="ion-android-star"></i></li>
+                                                    <li class="empty"><i class="ion-android-star"></i></li>
+                                                </ul>
+                                            </div>
+                                            <div class="content-right">
+                                                <span class="price">$@item.Gia</span> <!-- Thay giá bằng giá danh mục nếu có -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                                
+                            </div>
+                        </div>
+                        <!-- If we need navigation buttons -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Product Default Slider Section -->
+<!-- Start Modal Add cart -->
+<div class="modal fade" id="modalAddcart" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col text-right">
+                            <button type="button" class="close modal-close" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true"> <i class="fa fa-times"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="modal-add-cart-product-img">
+                                        <img class="img-fluid"
+                                             src="/images/product/default/home-1/default-1.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="modal-add-cart-info">
+                                        <i class="fa fa-check-square"></i>Added to cart
+                                        successfully!
+                                    </div>
+                                    <div class="modal-add-cart-product-cart-buttons">
+                                        <a href="cart.html">View Cart</a>
+                                        <a href="checkout.html">Checkout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 modal-border">
+                            <ul class="modal-add-cart-product-shipping-info">
+                                <li>
+                                    <strong>
+                                        <i class="icon-shopping-cart"></i> There Are 5 Items In Your
+                                        Cart.
+                                    </strong>
+                                </li>
+                                <li> <strong>TOTAL PRICE: </strong> <span>$187.00</span></li>
+                                <li class="modal-continue-button">
+                                    <a href="#" data-bs-dismiss="modal">
+                                        CONTINUE
+                                        SHOPPING
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End Modal Add cart -->
