@@ -1,0 +1,216 @@
+﻿@model MyPhamCheilinus.Models.GioHang
+@{
+    ViewData["Title"] = "Gio Hang";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+
+}
+<style>
+    /* Lớp CSS cho toàn bộ ô số lượng */
+
+    .thumbnail-image {
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+
+    /* Lớp CSS cho container của nút cộng và trừ */
+    .quantity-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Lớp CSS cho nút cộng và trừ */
+    .quantity-button {
+        background-color: #b19361; /* Màu nền vàng */
+        color: white; /* Màu chữ trắng */
+        font-weight: bold; /* Làm cho chữ đậm hơn */
+        padding: 10px; /* Điều chỉnh khoảng cách bên trong nút */
+
+
+        cursor: pointer; /* Biểu tượng con trỏ khi đưa chuột vào nút */
+    }
+
+    /* Lớp CSS cho trường nhập số */
+    .quantity-input {
+        background-color: white; /* Màu nền trắng */
+        color: black; /* Màu chữ đen */
+    }
+
+</style>
+
+
+@if (Model == null || Model.Lines.Count == 0)
+{
+    <div class="breadcrumb-section breadcrumb-bg-color--golden">
+        <div class="breadcrumb-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="breadcrumb-title">Empty Cart</h3>
+                        <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                            <nav aria-label="breadcrumb">
+                                <ul>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                                    <li class="active" aria-current="page">Empty Cart</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="empty-cart-section section-fluid">
+        <div class="emptycart-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-10 offset-md-1 col-xl-6 offset-xl-3">
+                        <div class="emptycart-content text-center">
+                            <div class="image">
+                                <img class="img-fluid" src="/images/emprt-cart/empty-cart.png" alt="">
+                            </div>
+                            <h4 class="title">Giỏ hàng của bạn đang trống</h4>
+                            <h6 class="sub-title">Không có sản phẩm nào trong giỏ hàng của bạn!</h6>
+                            <a href="/Home/DanhMucSanPham" class="btn btn-lg btn-golden">Tiếp tục mua sắm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="breadcrumb-section breadcrumb-bg-color--golden">
+        <div class="breadcrumb-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="breadcrumb-title">Giỏ hàng</h3>
+                        <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                            <nav aria-label="breadcrumb">
+                                <ul>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                                    <li class="active" aria-current="page">Cart</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart-section">
+        <!-- Start Cart Table -->
+        <div class="cart-table-wrapper" data-aos="fade-up" data-aos-delay="0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table_desc">
+                            <div class="table_page table-responsive">
+                                <table>
+                                    <!-- Start Cart Table Head -->
+                                    <thead>
+                                        <tr>
+                                            <th class="product_remove">Xóa</th>
+                                            <th class="product_thumb">Hình Ảnh</th>
+                                            <th class="product_name">Sản phẩm</th>
+                                            <th class="product-price">Giá</th>
+                                            <th class="product_quantity">Số lượng</th>
+                                            <th class="product_total">Tổng</th>
+                                        </tr>
+                                    </thead> <!-- End Cart Table Head -->
+                                    <tbody>
+                                        @if (Model?.Lines != null) // Kiểm tra Model và Model.Lines không phải là null
+                                        {
+                                            @foreach (var line in Model.Lines)
+                                            {
+                                                if (line != null) // Kiểm tra line không phải là null
+                                                {
+                                                    <!-- Start Cart Single Item-->
+                                                    <tr>
+                                                        <td class="product_remove">
+                                                            <a href="/GioHang/RemoveFromGioHang/?maSanPham=@line.SanPham.MaSanPham"><i class="fa fa-trash-o"></i></a>
+                                                        </td>
+
+                                                        <td class="product_thumb">
+                                                            <a href="#">
+
+                                                                <img src="/images/sanPhams/@line.SanPham.Anh" alt="" class="thumbnail-image">
+                                                            </a>
+                                                        </td>
+                                                        <td class="product_name">
+                                                            <a href="product-details-default.html">
+                                                                @line.SanPham.TenSanPham
+                                                            </a>
+                                                        </td>
+                                                        <td class="product-price">@string.Format("{0:#,##0} VNĐ", (line.SanPham.Gia ))</td>
+
+
+
+                                                        <td class="product_quantity">
+
+                                                            <div class="quantity-controls">
+                                                                <a href="/GioHang/Remove_1_FromGioHang/?maSanPham=@line.SanPham.MaSanPham" class="quantity-button">-</a>
+                                                                <input min="1" max="100" value="@line.SoLuong" id="quantity-@line.SanPham.MaSanPham" class="quantity-input">
+
+                                                                <a href="/GioHang/AddGioHang/?maSanPham=@line.SanPham.MaSanPham" class="quantity-button">+</a>
+
+                                                            </div>
+                                                        </td>
+
+
+                                                        <td class="product-price">@string.Format("{0:#,##0} VNĐ",(line.SoLuong * line.SanPham.Gia ))</td>
+                                                    </tr> <!-- End Cart Single Item-->
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <div class="cart_submit">
+
+                                <a href="/Home/DanhMucSanPham" class="btn btn-md btn-golden">Cập nhật</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End Cart Table -->
+        <!-- Start Coupon Start -->
+        <div class="coupon_area">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code right" data-aos="fade-up" data-aos-delay="400">
+                            <h3>Thanh toán giỏ hàng</h3>
+                            <div class="coupon_inner">
+                                <div class="cart_subtotal">
+                                    <p>Subtotal</p>
+                                    <p class="cart_amount">@string.Format("{0:#,##0} VNĐ",Model.ComputeTotalValues())</p>
+                                </div>
+                                <div class="cart_subtotal ">
+                                    <p>Shipping</p>
+                                    <p class="cart_amount"><span>Flat Rate:</span>10,000 VNĐ</p>
+                                </div>
+                                <a href="#">Calculate shipping</a>
+
+                                <div class="cart_subtotal">
+                                    <p>Total</p>
+                                    <p class="cart_amount">@string.Format("{0:#,##0} VNĐ",Model.ComputeTotalValues()+10000)</p>
+                                </div>
+                                <div class="checkout_btn">
+                                    <a href="/GioHang/CheckOut" class="btn btn-md btn-golden">Kiểm tra</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End Coupon Start -->
+    </div> <!-- ...:::: End Cart Section:::... -->
+}
