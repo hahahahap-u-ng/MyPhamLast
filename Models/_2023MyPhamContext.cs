@@ -45,7 +45,7 @@ public partial class _2023MyPhamContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=HAHAHAPHUONG\\MSSQLSERVER01;Initial Catalog=2023_My_Pham;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        => optionsBuilder.UseSqlServer("Data Source=CAPTAINM10\\TRUNGHIEU26;Initial Catalog=2023_My_Pham;User ID=hieu;Password=1;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -191,7 +191,7 @@ public partial class _2023MyPhamContext : DbContext
         {
             entity.HasKey(e => e.MaHang);
 
-            entity.ToTable("Hang");
+            entity.ToTable("Hang", tb => tb.HasTrigger("trg_DeleteHang"));
 
             entity.Property(e => e.MaHang)
                 .HasMaxLength(50)
@@ -299,7 +299,7 @@ public partial class _2023MyPhamContext : DbContext
         {
             entity.HasKey(e => e.MaSanPham);
 
-            entity.ToTable("SanPham");
+            entity.ToTable("SanPham", tb => tb.HasTrigger("UpdateGiaDanhMucSanPham"));
 
             entity.Property(e => e.MaSanPham)
                 .HasMaxLength(50)

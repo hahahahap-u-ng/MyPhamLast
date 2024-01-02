@@ -13,6 +13,8 @@ public partial class LoHang
 
     public double? GiaLo { get; set; }
 
+    public int? SoLuong { get; set; }
+
     public virtual ICollection<ChiTietLoHang> ChiTietLoHangs { get; set; } = new List<ChiTietLoHang>();
 
     public virtual NhaPhanPhoi? MaNhaPpNavigation { get; set; }
